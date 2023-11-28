@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -53,9 +52,6 @@ extension AsyncSnapshotX<T> on AsyncSnapshot<T> {
     R Function(Object? error, StackTrace? stackTrace)? error,
     R Function()? loading,
   }) {
-    if (kDebugMode) {
-      print(connectionState);
-    }
     switch (connectionState) {
       case ConnectionState.none:
         return idle?.call();
