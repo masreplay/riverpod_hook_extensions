@@ -67,7 +67,7 @@ mixin NullableObjectPreferenceProviderMixin<State>
   }
 }
 
-mixin ObjectPreferenceProvider<State extends Object>
+mixin ObjectPreferenceProviderMixin<State extends Object>
     on AutoDisposeNotifier<State> {
   @protected
   String get key;
