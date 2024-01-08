@@ -28,6 +28,7 @@ mixin NullableObjectPreferenceProviderMixin<State>
     return json.decode(raw) as Map<String, dynamic>;
   }
 
+  Future<State?> updateValue(State state) => update((_) => state);
   Future<State?> update(State Function(State? state) changed) async {
     final State value = changed(state);
 

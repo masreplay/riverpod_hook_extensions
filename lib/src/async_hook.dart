@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-ValueNotifier<AsyncSnapshot<T>> useAsyncState<T>() {
-  return useState<AsyncSnapshot<T>>(const AsyncSnapshot.nothing());
+ValueNotifier<AsyncSnapshot<T>> useAsyncState<T>({
+  T? data,
+  AsyncSnapshot<T>? state,
+}) {
+  assert(
+    data == null || state == null,
+    'You can only provide either data or state',
+  );
+
+  final dataState = data == null
+      ? null
+      : AsyncSnapshot<T>.withData(ConnectionState.done, data);
+
+  return useState<AsyncSnapshot<T>>(
+    dataState ?? state ?? const AsyncSnapshot.nothing(),
+  );
 }
 
 extension AsyncSnapshotValueNotifier<T> on ValueNotifier<AsyncSnapshot<T>> {
@@ -47,10 +61,10 @@ extension AsyncSnapshotX<T> on AsyncSnapshot<T> {
   }
 
   R? whenOrNull<R>({
-    R Function()? idle,
-    R Function(T data)? data,
-    R Function(Object? error, StackTrace? stackTrace)? error,
-    R Function()? loading,
+    R? Function()? idle,
+    R? Function(T data)? data,
+    R? Function(Object? error, StackTrace? stackTrace)? error,
+    R? Function()? loading,
   }) {
     switch (connectionState) {
       case ConnectionState.none:
@@ -73,10 +87,10 @@ extension AsyncSnapshotX<T> on AsyncSnapshot<T> {
   bool get isError => connectionState == ConnectionState.done && hasError;
 
   R maybeWhen<R>({
-    R Function()? idle,
-    R Function(T data)? data,
-    R Function(Object? error, StackTrace? stackTrace)? error,
-    R Function()? loading,
+    R? Function()? idle,
+    R? Function(T data)? data,
+    R? Function(Object? error, StackTrace? stackTrace)? error,
+    R? Function()? loading,
     required R Function() orElse,
   }) {
     switch (connectionState) {

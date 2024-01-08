@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ColumnPadded extends Column {
   ColumnPadded({
     super.key,
-    double gap = 8,
+    double spacing = 8,
     required List<Widget> children,
     super.crossAxisAlignment,
     super.mainAxisAlignment,
@@ -15,7 +15,7 @@ class ColumnPadded extends Column {
           children: [
             for (var i = 0; i < children.length; i++) ...[
               children[i],
-              if (i != children.length - 1) SizedBox.square(dimension: gap),
+              if (i != children.length - 1) SizedBox.square(dimension: spacing),
             ]
           ],
         );
@@ -24,7 +24,7 @@ class ColumnPadded extends Column {
 class RowPadded extends Row {
   RowPadded({
     super.key,
-    double gap = 8,
+    double spacing = 8,
     required List<Widget> children,
     super.crossAxisAlignment,
     super.mainAxisAlignment,
@@ -36,7 +36,7 @@ class RowPadded extends Row {
           children: [
             for (var i = 0; i < children.length; i++) ...[
               children[i],
-              if (i != children.length - 1) SizedBox.square(dimension: gap),
+              if (i != children.length - 1) SizedBox.square(dimension: spacing),
             ]
           ],
         );
