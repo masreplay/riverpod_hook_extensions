@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ColumnPadded extends Column {
   ColumnPadded({
     super.key,
-    double spacing = 8,
+    double spacing = 8.0,
     required List<Widget> children,
     super.crossAxisAlignment,
     super.mainAxisAlignment,
