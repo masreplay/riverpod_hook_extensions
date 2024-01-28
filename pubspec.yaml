@@ -1,6 +1,6 @@
 name: useful_hook
 description: "A useful hook for flutter."
-version: 0.0.2
+version: 0.0.3
 
 environment:
   sdk: '>=3.2.3 <4.0.0'

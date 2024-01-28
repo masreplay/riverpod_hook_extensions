@@ -6,3 +6,4 @@ export "src/list_value_notifier.dart";
 export "src/value_notifier.dart";
 export "src/shared_preferences.dart";
 export "src/flex_padded.dart";
+export "src/long_pooling.dart";
