@@ -20,6 +20,10 @@ ValueNotifier<AsyncSnapshot<T>> useAsyncState<T>({
 }
 
 extension AsyncSnapshotValueNotifier<T> on ValueNotifier<AsyncSnapshot<T>> {
+  void reset() {
+    value = AsyncSnapshot<T>.nothing();
+  }
+
   Future<void> call(Future<T> future) async {
     value = AsyncSnapshot<T>.waiting();
 
@@ -38,12 +42,27 @@ extension AsyncSnapshotValueNotifier<T> on ValueNotifier<AsyncSnapshot<T>> {
   }
 }
 
+typedef AsyncErrorCallback<R> = R Function(
+  Object? error,
+  StackTrace? stackTrace,
+);
+
+typedef AsyncDataCallback<R, T> = R Function(T data);
+
+typedef AsyncIdleCallback<R> = R Function();
+typedef AsyncLoadingCallback<R> = R Function();
+
 extension AsyncSnapshotX<T> on AsyncSnapshot<T> {
+  bool get isLoading => connectionState == ConnectionState.waiting;
+  bool get isIdle => connectionState == ConnectionState.none;
+  bool get isData => connectionState == ConnectionState.done && !hasError;
+  bool get isError => connectionState == ConnectionState.done && hasError;
+
   R when<R>({
-    required R Function() idle,
-    required R Function(T data) data,
-    required R Function(Object? error, StackTrace? stackTrace) error,
-    required R Function() loading,
+    required AsyncIdleCallback<R> idle,
+    required AsyncDataCallback<R, T> data,
+    required AsyncErrorCallback<R> error,
+    required AsyncLoadingCallback<R> loading,
   }) {
     switch (connectionState) {
       case ConnectionState.none:
@@ -61,10 +80,10 @@ extension AsyncSnapshotX<T> on AsyncSnapshot<T> {
   }
 
   R? whenOrNull<R>({
-    R? Function()? idle,
-    R? Function(T data)? data,
-    R? Function(Object? error, StackTrace? stackTrace)? error,
-    R? Function()? loading,
+    AsyncIdleCallback<R?>? idle,
+    AsyncDataCallback<R?, T>? data,
+    AsyncErrorCallback<R?>? error,
+    AsyncLoadingCallback<R?>? loading,
   }) {
     switch (connectionState) {
       case ConnectionState.none:
@@ -81,16 +100,11 @@ extension AsyncSnapshotX<T> on AsyncSnapshot<T> {
     }
   }
 
-  bool get isLoading => connectionState == ConnectionState.waiting;
-  bool get isIdle => connectionState == ConnectionState.none;
-  bool get isData => connectionState == ConnectionState.done && !hasError;
-  bool get isError => connectionState == ConnectionState.done && hasError;
-
   R maybeWhen<R>({
-    R? Function()? idle,
-    R? Function(T data)? data,
-    R? Function(Object? error, StackTrace? stackTrace)? error,
-    R? Function()? loading,
+    AsyncIdleCallback<R?>? idle,
+    AsyncDataCallback<R?, T>? data,
+    AsyncErrorCallback<R?>? error,
+    AsyncLoadingCallback<R?>? loading,
     required R Function() orElse,
   }) {
     switch (connectionState) {
@@ -106,5 +120,21 @@ extension AsyncSnapshotX<T> on AsyncSnapshot<T> {
           return data?.call(this.data as T) ?? orElse.call();
         }
     }
+  }
+
+  R? whenError<R>(AsyncErrorCallback<R?>? error) {
+    return whenOrNull(error: error);
+  }
+
+  R? whenData<R>(AsyncDataCallback<R?, T>? data) {
+    return whenOrNull(data: data);
+  }
+
+  R? whenIdle<R>(AsyncIdleCallback<R?>? idle) {
+    return whenOrNull(idle: idle);
+  }
+
+  R? whenLoading<R>(AsyncLoadingCallback<R?>? loading) {
+    return whenOrNull(loading: loading);
   }
 }
