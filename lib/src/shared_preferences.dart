@@ -11,8 +11,7 @@ SharedPreferences sharedPreferences(SharedPreferencesRef ref) {
   throw UnimplementedError();
 }
 
-mixin NullableObjectPreferenceProviderMixin<State>
-    on AutoDisposeNotifier<State?> {
+mixin NullablePreferenceNotifierMixin<State> on AutoDisposeNotifier<State?> {
   @protected
   String get key;
 
@@ -68,10 +67,12 @@ mixin NullableObjectPreferenceProviderMixin<State>
   }
 }
 
-mixin ObjectPreferenceProviderMixin<State extends Object>
+mixin PreferenceNotifierMixin<State extends Object>
     on AutoDisposeNotifier<State> {
   @protected
   String get key;
+
+  State get defaultState;
 
   Map<String, dynamic> toJson(State value);
 
@@ -100,14 +101,20 @@ mixin ObjectPreferenceProviderMixin<State extends Object>
     }
   }
 
-  State firstBuild(State fallback) {
+  Future<void> clear() {
+    return updateValue(defaultState);
+  }
+
+  State firstBuild([State? fallback]) {
     final raw = ref.read(sharedPreferencesProvider).getString(key);
-    if (raw == null) return fallback;
+
+    final default_ = fallback ?? defaultState;
+    if (raw == null) return default_;
     try {
       final Map<String, dynamic> map = jsonDecode(raw);
       return fromJson(map);
     } catch (e) {
-      return fallback;
+      return default_;
     }
   }
 }
