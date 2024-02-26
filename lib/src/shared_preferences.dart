@@ -12,6 +12,9 @@ SharedPreferences sharedPreferences(SharedPreferencesRef ref) {
 }
 
 mixin NullablePreferenceNotifierMixin<State> on AutoDisposeNotifier<State?> {
+  SharedPreferences get _sharedPreferences =>
+      ref.read(sharedPreferencesProvider);
+
   @protected
   String get key;
 
@@ -27,28 +30,29 @@ mixin NullablePreferenceNotifierMixin<State> on AutoDisposeNotifier<State?> {
     return json.decode(raw) as Map<String, dynamic>;
   }
 
-  Future<State?> updateValue(State state) => update((_) => state);
-  Future<State?> update(State Function(State? state) changed) async {
-    final State value = changed(state);
-
+  Future<State?> updateState(State state) async {
     try {
-      final Map<String, dynamic>? jsonData = toJson(value);
+      final Map<String, dynamic>? jsonData = toJson(state);
       final String? raw = jsonEncode(jsonData);
       if (raw == null) {
-        await ref.read(sharedPreferencesProvider).remove(key);
+        await _sharedPreferences.remove(key);
       } else {
-        await ref.read(sharedPreferencesProvider).setString(key, raw);
+        await _sharedPreferences.setString(key, raw);
       }
 
-      return state = value;
+      return this.state = state;
     } catch (e, _) {
       debugPrint(e.toString());
-      return state;
+      return this.state;
     }
   }
 
+  Future<State?> update(State Function(State? state) changed) {
+    return updateState(changed(state));
+  }
+
   State? firstBuild() {
-    final raw = ref.read(sharedPreferencesProvider).getString(key);
+    final raw = _sharedPreferences.getString(key);
 
     if (raw == null) return null;
 
@@ -62,13 +66,16 @@ mixin NullablePreferenceNotifierMixin<State> on AutoDisposeNotifier<State?> {
   }
 
   Future<void> clear() async {
-    await ref.read(sharedPreferencesProvider).remove(key);
+    await _sharedPreferences.remove(key);
     state = null;
   }
 }
 
 mixin PreferenceNotifierMixin<State extends Object>
     on AutoDisposeNotifier<State> {
+  SharedPreferences get _sharedPreferences =>
+      ref.read(sharedPreferencesProvider);
+
   @protected
   String get key;
 
@@ -86,29 +93,28 @@ mixin PreferenceNotifierMixin<State extends Object>
     return json.decode(raw) as Map<String, dynamic>;
   }
 
-  Future<State> updateValue(State state) => update((_) => state);
-
-  Future<State> update(State Function(State state) changed) async {
-    final State value = changed(state);
+  Future<State> updateState(State state) async {
     try {
-      final Map<String, dynamic> jsonData = toJson(value);
+      final Map<String, dynamic> jsonData = toJson(state);
       final String raw = jsonEncode(jsonData);
-      await ref.read(sharedPreferencesProvider).setString(key, raw);
+      await _sharedPreferences.setString(key, raw);
 
-      return state = value;
+      return this.state = state;
     } catch (e) {
-      return state;
+      return this.state;
     }
   }
 
-  Future<void> clear() {
-    return updateValue(defaultState);
+  Future<State> update(State Function(State state) changed) {
+    return updateState(changed(state));
   }
 
-  State firstBuild([State? fallback]) {
-    final raw = ref.read(sharedPreferencesProvider).getString(key);
+  Future<void> clear() => updateState(defaultState);
 
-    final default_ = fallback ?? defaultState;
+  State firstBuild() {
+    final raw = _sharedPreferences.getString(key);
+
+    final default_ = defaultState;
     if (raw == null) return default_;
     try {
       final Map<String, dynamic> map = jsonDecode(raw);
