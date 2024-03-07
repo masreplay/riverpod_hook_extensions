@@ -1,24 +1,29 @@
 name: useful_hook
 description: "A useful hook for flutter."
-version: 0.0.3
+version: 0.0.4
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ">=3.3.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
+
+  meta: ^1.10.0
+
+  # riverpod
   flutter_hooks: ^0.20.4
   hooks_riverpod: ^2.4.9
-  meta: ^1.10.0
   riverpod_annotation: ^2.3.3
+
+  # cache
   shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
+
   flutter_lints: ^3.0.1
   custom_lint: ^0.5.8
 
