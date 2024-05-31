@@ -1,5 +1,5 @@
 name: useful_hook
-description: "A useful hook for flutter."
+description: "A useful hook and riverpod extension for flutter."
 version: 0.0.4
 
 environment:
