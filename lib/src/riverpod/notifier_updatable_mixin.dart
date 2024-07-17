@@ -1,4 +1,4 @@
-// ignore: depend_on_referenced_packages, implementation_imports
+// ignore: implementation_imports
 import 'package:riverpod/src/notifier.dart';
 
 // ignore: invalid_use_of_internal_member

@@ -1,6 +1,12 @@
 name: riverpod_hook_extensions
 description: "Riverpod, Hooks, and ValueNotifier extensions for Flutter"
 version: 0.0.1
+homepage: https://github.com/masreplay/riverpod_hook_extensions
+issue_tracker: https://github.com/masreplay/riverpod_hook_extensions/issues
+documentation: https://riverpod.dev/getting-started
+funding: [https://github.com/sponsors/masreplay]
+topics: [riverpod, cache, offline, persistence, shared-preferences]
+
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -13,6 +19,7 @@ dependencies:
   # riverpod
   flutter_hooks: ^0.20.4
   hooks_riverpod: ^2.4.9
+  riverpod: ^2.5.1
   riverpod_annotation: ^2.3.3
 
 dev_dependencies:
