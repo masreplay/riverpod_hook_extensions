@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-extension ValueNotifierUpdated<T> on ValueNotifier<T> {
+extension UpdatableValueNotifier<T> on ValueNotifier<T> {
   void update(T newValue) => value = newValue;
 
   void maybeUpdate(T? newValue) {
