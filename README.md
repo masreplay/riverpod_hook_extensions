@@ -1,16 +1,15 @@
-# Riverpod offline persistence
+# Riverpod Hooks ValueNotifier Extensions
 
 [![Pub](https://img.shields.io/pub/v/riverpod_hook_extensions.svg)](https://pub.dev/packages/riverpod_hook_extensions)
 [![GitHub stars](https://img.shields.io/github/stars/masreplay/riverpod_hook_extensions.svg?style=social)](https://github.com/masreplay/riverpod_hook_extensions)
 
-Flutter riverpod 
+Flutter Riverpod, Hooks and ValueNotifier missing extensions 
 
 ## Features
-- [x] Cache `FutureProvider` 
-- [x] Cache `StreamProvider` 
-- [x] Cache `StateNotifierProvider`
-- [x] Cache `StateProvider`
-- [x] And more...
+- [x] `ValueNotifier` Extensions
+- [x] `StateNotifier` Extensions
+- [x] `FutureProvider` Extensions
+- [x] `useGlobalKey` Extensions
 
 ## Getting Started
 
@@ -18,7 +17,11 @@ In order to use this package, you need to add `riverpod_hook_extensions` as a de
 
 ```yaml
 dependencies:
-  riverpod_hook_extensions: ^0.0.2
+  riverpod_hook_extensions: <latest_version>
+```
+
+```bash
+flutter pub add riverpod_hook_extensions
 ```
 
 Then, run `flutter pub get` to fetch the package.
