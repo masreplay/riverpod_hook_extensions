@@ -1,4 +1,4 @@
-library useful_hook;
+library riverpod_hook_extensions;
 
 export "src/hooks/hooks.dart";
 export "src/riverpod/riverpod.dart";
