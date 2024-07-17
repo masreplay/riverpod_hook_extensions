@@ -10,8 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  meta: ^1.10.0
-
   # riverpod
   flutter_hooks: ^0.20.4
   hooks_riverpod: ^2.4.9
@@ -21,10 +19,39 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.1
-  custom_lint: ^0.5.8
+  # lint
+  flutter_lints: ^4.0.0
+  custom_lint: ^0.6.4
 
-  riverpod_generator: ^2.3.9
+  # code-gen
   build_runner: ^2.4.7
+  riverpod_generator: ^2.3.9
 
 flutter:
+
+scripts:
+  g:
+    $script: rps gen build
+    $description: shortcut for gen build
+  w:
+    $script: rps gen watch
+    $description: shortcut for gen watch
+
+  get:
+    $script: fvm flutter pub get
+    $description: Get dependencies
+
+  gen:
+    watch:
+      $script: fvm dart run build_runner watch --delete-conflicting-outputs
+      $description: Generate files on save
+    build:
+      $script: fvm dart run build_runner build --delete-conflicting-outputs
+      $description: Generate files
+
+  publish:
+    $script: fvm flutter pub publish
+    $description: Publish package
+  fix-format:
+    $script: fvm dart fix --apply && fvm dart format -o write ./lib
+    $description: Fix code warnings and format code
