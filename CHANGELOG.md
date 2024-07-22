@@ -6,3 +6,7 @@
 
 * Value notifier `bool` type support, add toggle method.
 * Hook `useWidgetRef` to get widget reference.
+
+## 0.0.3
+
+* Riverpod add `refreshSelf` method to the `AsyncNotifier`.
