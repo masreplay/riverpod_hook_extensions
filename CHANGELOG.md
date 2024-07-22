@@ -14,3 +14,6 @@
 ## 0.0.4
 
 * Fix adding `refreshSelf` method to the `AsyncNotifier`.
+
+## 0.0.5
+* Undo last fix

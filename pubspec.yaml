@@ -1,6 +1,6 @@
 name: riverpod_hook_extensions
 description: "Riverpod, Hooks, and ValueNotifier extensions for Flutter"
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/masreplay/riverpod_hook_extensions
 issue_tracker: https://github.com/masreplay/riverpod_hook_extensions/issues
 documentation: https://riverpod.dev/getting-started
