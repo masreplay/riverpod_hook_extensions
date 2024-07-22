@@ -2,7 +2,7 @@
 
 import 'package:riverpod/src/async_notifier.dart';
 
-extension AsyncNotifierRefreshable<State> on AsyncNotifierBase<State> {
+extension AsyncNotifierRefreshable<State> on AutoDisposeAsyncNotifier<State> {
   Future<State> refreshSelf() {
     ref.invalidateSelf();
 

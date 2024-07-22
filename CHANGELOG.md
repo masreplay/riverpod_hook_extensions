@@ -10,3 +10,7 @@
 ## 0.0.3
 
 * Riverpod add `refreshSelf` method to the `AsyncNotifier`.
+
+## 0.0.4
+
+* Fix adding `refreshSelf` method to the `AsyncNotifier`.
